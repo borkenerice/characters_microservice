@@ -1,10 +1,10 @@
 import os
 import config
 from api import db, create_app
-from api.models import Person
+from api.models import Character
 
 # Data to initialize database with
-PERSONS = [
+CHARACTERS = [
     {
         "name": "Jon",
         "place_id": "1",
@@ -28,16 +28,16 @@ PERSONS = [
 
 def create_database():
     # Delete database file if it exists currently
-    if os.path.exists(os.path.join(config.BASE_DIR, 'persons.db')):
-        os.remove(os.path.join(config.BASE_DIR, 'persons.db'))
+    if os.path.exists(os.path.join(config.BASE_DIR, 'characters.db')):
+        os.remove(os.path.join(config.BASE_DIR, 'characters.db'))
     # Create the database
     app = create_app()
     with app.app_context():
         db.create_all()
         # iterate over the PEOPLE structure and populate the database
-        for person in PERSONS:
-            p = Person(name=person.get("name"), place_id=person.get("place_id"), king=person.get("king"),
-                       alive=person.get("alive"))
+        for character in CHARACTERS:
+            p = Character(name=character.get("name"), place_id=character.get("place_id"), king=character.get("king"),
+                          alive=character.get("alive"))
             db.session.add(p)
         db.session.commit()
 
