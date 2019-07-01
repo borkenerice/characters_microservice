@@ -5,17 +5,24 @@ from api import db
 from api.models import Character, CharacterSchema
 
 
-def read_all_characters():
+def find_all_characters():
     characters = Character.query.order_by(Character.name).all()
     character_schema = CharacterSchema(many=True)
     data = character_schema.dump(characters).data
     return data
 
 
-def read_character(character_id):
+def find_character_by_id(character_id):
     character = Character.query.get_or_404(character_id, description=f'Character not found with the id: {character_id}')
     character_schema = CharacterSchema()
     data = character_schema.dump(character).data
+    return data
+
+
+def find_characters_by_place_id(place_id):
+    characters = Character.query.filter_by(place_id=place_id).order_by(Character.name).all()
+    character_schema = CharacterSchema(many=True)
+    data = character_schema.dump(characters).data
     return data
 
 
@@ -47,7 +54,7 @@ def create_character(character_data):
         abort(400, f'Character could not be created: {i.orig}')
 
 
-def delete_character(character_id):
+def delete_character_by_id(character_id):
     character = Character.query.get_or_404(character_id, description=f'Character not found with the id: {character_id}')
     db.session.delete(character)
     db.session.commit()
