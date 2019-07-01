@@ -1,8 +1,8 @@
 swagger: "2.0"
 info:
-  description: Simple API to perform CRUD operations to the Persons database
+  description: Simple API to perform CRUD operations to the Characters database
   version: "1.0"
-  title: Persons API
+  title: Characters API
 consumes:
   - application/json
 produces:
@@ -11,102 +11,117 @@ produces:
 basePath: /api
 
 paths:
-  /person:
+  /character:
     get:
-      operationId: api.persons.read_all_persons
-      tags: [Person]
-      summary: Get all Persons
+      operationId: api.characters.read_all_characters
+      tags: [Character]
+      summary: Get all Characters
       responses:
         200:
-          description: List of all Persons
+          description: List of all Characters
           schema:
             type: object
             properties:
-              persons:
+              characters:
                 type: object
                 items:
-                  $ref: '#/definitions/Person'
+                  $ref: '#/definitions/Character'
         204:
-          description: No persons found
+          description: No characters found
     post:
-      operationId: api.persons.create_person
-      tags: [Person]
-      summary: Create a new Person
+      operationId: api.characters.create_character
+      tags: [Character]
+      summary: Create a new Character
       parameters:
-        - name: person_data
+        - name: character_data
           in: body
           schema:
-            $ref: '#/definitions/Person'
+            $ref: '#/definitions/Character'
       responses:
         201:
-          description: New person created
+          description: New character created
         400:
-          description: Error creating person
+          description: Error creating character
 
-  /person/{person_id}:
+  /character/{character_id}:
     get:
-      operationId: api.persons.read_person
-      tags: [Person]
-      summary: Get a Person
+      operationId: api.characters.read_character
+      tags: [Character]
+      summary: Get a Character
       parameters:
-        - $ref: '#/parameters/person_id'
+        - $ref: '#/parameters/character_id'
       responses:
         200:
-          description: Definition of a Person identified by its id
+          description: Definition of a Character identified by its id
           schema:
             type: object
             properties:
-              persons:
+              characters:
                 type: object
                 items:
-                  $ref: '#/definitions/Person'
+                  $ref: '#/definitions/Character'
         404:
-          description: Person does not exist
+          description: Character does not exist
     put:
-      tags: [Person]
-      operationId: api.persons.update_person
-      summary: Update a person
+      tags: [Character]
+      operationId: api.characters.update_character
+      summary: Update a character
       parameters:
-        - $ref: '#/parameters/person_id'
-        - name: person_data
+        - $ref: '#/parameters/character_id'
+        - name: character_data
           in: body
           schema:
-            $ref: '#/definitions/Person'
+            $ref: '#/definitions/Character'
       responses:
         201:
-          description: Person updated
+          description: Character updated
         400:
-          description: Error updating person
+          description: Error updating character
     delete:
-      tags: [Person]
-      operationId: api.persons.delete_person
-      summary: Remove a person
+      tags: [Character]
+      operationId: api.characters.delete_character
+      summary: Remove a character
       parameters:
-        - $ref: '#/parameters/person_id'
+        - $ref: '#/parameters/character_id'
       responses:
         200:
-          description: Person was deleted
+          description: Character was deleted
         404:
-          description: Person does not exists
+          description: Character does not exists
 
 parameters:
-  person_id:
-    name: person_id
-    description: Person's Unique identifier
+  character_id:
+    name: character_id
+    description: Character's Unique identifier
     in: path
     type: string
     required: true
     pattern: "^[0-9]+$"
 
 definitions:
-  Person:
+  Character:
     type: object
     required:
       - name
+      - place_id
+      - king
     properties:
       name:
         type: string
-        description: Person's unique name
-        example: "Westeros"
+        description: Character's unique name
+        example: "Jon"
         minLength: 1
         maxLength: 100
+      place_id:
+        type: string
+        description: Character's place id
+        example: 3
+        pattern: "^[0-9]+$"
+      king:
+        type: boolean
+        description: If a character is the king of the place
+        example: false
+      alive:
+        type: boolean
+        description: If a character ir alive(true) or dead(false). If not set, defaults to dead
+        example: false
