@@ -13,7 +13,7 @@ basePath: /api
 paths:
   /character:
     get:
-      operationId: api.characters.read_all_characters
+      operationId: api.characters.find_all_characters
       tags: [Character]
       summary: Get all Characters
       responses:
@@ -21,11 +21,7 @@ paths:
           description: List of all Characters
           schema:
             type: object
-            properties:
-              characters:
-                type: object
-                items:
-                  $ref: '#/definitions/Character'
+            $ref: '#/definitions/Character'
         204:
           description: No characters found
     post:
@@ -42,30 +38,40 @@ paths:
           description: New character created
         400:
           description: Error creating character
-
+  /character/findByPlace/{place_id}:
+    get:
+      operationId: api.characters.find_characters_by_place_id
+      tags: [Character]
+      summary: Find all characters by their place_id
+      parameters:
+        - $ref: '#/parameters/place_id'
+      responses:
+        200:
+          description: List of all Characters
+          schema:
+            type: object
+            $ref: '#/definitions/Character'
+        204:
+           description: No characters found
   /character/{character_id}:
     get:
-      operationId: api.characters.read_character
+      operationId: api.characters.find_character_by_id
       tags: [Character]
-      summary: Get a Character
+      summary: Find a character identified by its id
       parameters:
         - $ref: '#/parameters/character_id'
       responses:
         200:
-          description: Definition of a Character identified by its id
+          description: Definition of a Character
           schema:
             type: object
-            properties:
-              characters:
-                type: object
-                items:
-                  $ref: '#/definitions/Character'
+            $ref: '#/definitions/Character'
         404:
           description: Character does not exist
     put:
       tags: [Character]
       operationId: api.characters.update_character
-      summary: Update a character
+      summary: Update a character idenitfied by its id
       parameters:
         - $ref: '#/parameters/character_id'
         - name: character_data
@@ -79,8 +85,8 @@ paths:
           description: Error updating character
     delete:
       tags: [Character]
-      operationId: api.characters.delete_character
-      summary: Remove a character
+      operationId: api.characters.delete_character_by_id
+      summary: Remove a character identified by its id
       parameters:
         - $ref: '#/parameters/character_id'
       responses:
@@ -93,6 +99,13 @@ parameters:
   character_id:
     name: character_id
     description: Character's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[0-9]+$"
+  place_id:
+    name: place_id
+    description: Character's place id
     in: path
     type: string
     required: true
