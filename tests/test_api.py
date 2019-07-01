@@ -22,7 +22,7 @@ def init_database():
     :return: db
     """
     db.create_all()
-    character = Character(name='Jon Test', place_id=1, king=False)
+    character = Character(name='Jon Test', place_id=1, king=True, alive=True)
     character2 = Character(name='Perrete Test', place_id=2, king=False, alive=False)
     db.session.add(character)
     db.session.add(character2)
@@ -110,6 +110,41 @@ def test_create_character_same_name_error_response_code(test_client, init_databa
     assert response.status_code == 400
 
 
+def test_create_character_alive_without_place_id(test_client, init_database):
+    """
+        Check correct response code for a post request to create a character
+        alive and without place_id
+        :param test_client: fixture
+        :param init_database: fixture
+        :return:
+        """
+    character = {
+        'name': 'Manolin',
+        'king': True,
+        'alive': True
+    }
+    response = test_client.post('/api/character', json=character)
+    assert response.status_code == 400
+
+
+def test_create_character_not_valid_king(test_client, init_database):
+    """
+        Check correct response code for a post request to create a character
+        and set ir as king if already exists a king in the same place
+        :param test_client: fixture
+        :param init_database: fixture
+        :return:
+        """
+    character = {
+        'name': 'Manolin',
+        'place_id': "1",
+        'king': True,
+        'alive': True
+    }
+    response = test_client.post('/api/character', json=character)
+    assert response.status_code == 400
+
+
 def test_update_character_response_code(test_client, init_database):
     """
     Check correct response code for a put request to update a character
@@ -120,7 +155,7 @@ def test_update_character_response_code(test_client, init_database):
     character = {
         'name': 'Arrolla',
         'place_id': "3",
-        'king': False,
+        'king': True,
         'alive': True
     }
     response = test_client.put('/api/character/1', json=character)
@@ -139,6 +174,41 @@ def test_update_character_same_name_error_response_code(test_client, init_databa
         'name': 'Tirria',
         'place_id': "3",
         'king': False,
+        'alive': True
+    }
+    response = test_client.put('/api/character/2', json=character)
+    assert response.status_code == 400
+
+
+def test_update_character_not_valid_king(test_client, init_database):
+    """
+        Check correct response code for a put request to update a character
+        and set ir as king if already exists a king in the same place
+        :param test_client: fixture
+        :param init_database: fixture
+        :return:
+        """
+    character = {
+        'name': 'Manolin',
+        'place_id': "3",
+        'king': True,
+        'alive': True
+    }
+    response = test_client.put('/api/character/2', json=character)
+    assert response.status_code == 400
+
+
+def test_update_character_alive_without_place_id(test_client, init_database):
+    """
+        Check correct response code for a put request to update a character
+        and set it as alive without place id
+        :param test_client: fixture
+        :param init_database: fixture
+        :return:
+        """
+    character = {
+        'name': 'Manolin',
+        'king': True,
         'alive': True
     }
     response = test_client.put('/api/character/2', json=character)
