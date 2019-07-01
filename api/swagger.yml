@@ -71,7 +71,7 @@ paths:
     put:
       tags: [Character]
       operationId: api.characters.update_character
-      summary: Update a character idenitfied by its id
+      summary: Update a character identified by its id
       parameters:
         - $ref: '#/parameters/character_id'
         - name: character_data
