@@ -39,6 +39,9 @@ def update_character(character_id, character_data):
     except IntegrityError as i:
         db.session.rollback()
         abort(400, f'Character: {character_id} could not be updated: {i.orig}')
+    except ValueError as v:
+        db.session.rollback()
+        abort(400, f'Character: {character_id} could not be updated: {v}')
 
 
 def create_character(character_data):
@@ -52,6 +55,9 @@ def create_character(character_data):
     except IntegrityError as i:
         db.session.rollback()
         abort(400, f'Character could not be created: {i.orig}')
+    except ValueError as v:
+        db.session.rollback()
+        abort(400, f'Character could not be created: {v}')
 
 
 def delete_character_by_id(character_id):
