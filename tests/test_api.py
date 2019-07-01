@@ -31,9 +31,9 @@ def init_database():
     db.drop_all()
 
 
-def test_get_all_character_response_status(test_client, init_database):
+def test_get_all_characters_response_status(test_client, init_database):
     """
-    Check correct response code for a get request to the place endpoint
+    Check correct response code for a get request to get all the characters available
     :param test_client: fixture
     :param init_database: fixture
     :return:
@@ -42,9 +42,20 @@ def test_get_all_character_response_status(test_client, init_database):
     assert response.status_code == 200
 
 
+def test_get_all_characters_by_place_id_response_status(test_client, init_database):
+    """
+    Check correct response code for a get request to get all the characters available in an specified place_id
+    :param test_client: fixture
+    :param init_database: fixture
+    :return:
+    """
+    response = test_client.get('/api/character/findByPlace/2')
+    assert response.status_code == 200
+
+
 def test_get_character_by_id_response_code(test_client, init_database):
     """
-    Check correct response code for a get request to character identified by its id
+    Check correct response code for a get request to a character identified by its id
     :param test_client: fixture
     :param init_database: fixture
     :return:
@@ -55,7 +66,7 @@ def test_get_character_by_id_response_code(test_client, init_database):
 
 def test_get_character_by_id_do_not_exists_response_code(test_client, init_database):
     """
-    Check correct response code for a get request to character identified by its id if it does not exists
+    Check correct response code for a get request to a character identified by its id if it does not exists
     :param test_client: fixture
     :param init_database: fixture
     :return:
