@@ -116,25 +116,24 @@ definitions:
     type: object
     required:
       - name
-      - place_id
       - king
     properties:
       name:
         type: string
-        description: Character's unique name
+        description: Character's unique name.
         example: "Jon"
         minLength: 1
         maxLength: 100
       place_id:
         type: string
-        description: Character's place id
-        example: 3
+        description: Character's place id. Required if the character is alive.
+        example: "3"
         pattern: "^[0-9]+$"
       king:
         type: boolean
-        description: If a character is the king of the place
+        description: If a character is the king of the place.
         example: false
       alive:
         type: boolean
-        description: If a character ir alive(true) or dead(false). If not set, defaults to dead
+        description: If a character ir alive(true) or dead(false). If not set, defaults to dead.
         example: false
