@@ -1,0 +1,112 @@
+swagger: "2.0"
+info:
+  description: Simple API to perform CRUD operations to the Persons database
+  version: "1.0"
+  title: Persons API
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+paths:
+  /person:
+    get:
+      operationId: api.persons.read_all_persons
+      tags: [Person]
+      summary: Get all Persons
+      responses:
+        200:
+          description: List of all Persons
+          schema:
+            type: object
+            properties:
+              persons:
+                type: object
+                items:
+                  $ref: '#/definitions/Person'
+        204:
+          description: No persons found
+    post:
+      operationId: api.persons.create_person
+      tags: [Person]
+      summary: Create a new Person
+      parameters:
+        - name: person_data
+          in: body
+          schema:
+            $ref: '#/definitions/Person'
+      responses:
+        201:
+          description: New person created
+        400:
+          description: Error creating person
+
+  /person/{person_id}:
+    get:
+      operationId: api.persons.read_person
+      tags: [Person]
+      summary: Get a Person
+      parameters:
+        - $ref: '#/parameters/person_id'
+      responses:
+        200:
+          description: Definition of a Person identified by its id
+          schema:
+            type: object
+            properties:
+              persons:
+                type: object
+                items:
+                  $ref: '#/definitions/Person'
+        404:
+          description: Person does not exist
+    put:
+      tags: [Person]
+      operationId: api.persons.update_person
+      summary: Update a person
+      parameters:
+        - $ref: '#/parameters/person_id'
+        - name: person_data
+          in: body
+          schema:
+            $ref: '#/definitions/Person'
+      responses:
+        201:
+          description: Person updated
+        400:
+          description: Error updating person
+    delete:
+      tags: [Person]
+      operationId: api.persons.delete_person
+      summary: Remove a person
+      parameters:
+        - $ref: '#/parameters/person_id'
+      responses:
+        200:
+          description: Person was deleted
+        404:
+          description: Person does not exists
+
+parameters:
+  person_id:
+    name: person_id
+    description: Person's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[0-9]+$"
+
+definitions:
+  Person:
+    type: object
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        description: Person's unique name
+        example: "Westeros"
+        minLength: 1
+        maxLength: 100
