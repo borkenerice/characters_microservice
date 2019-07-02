@@ -100,7 +100,7 @@ def test_create_character(test_client, init_database):
         'alive': True
     }
     response = test_client.post('/api/character', json=character)
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 
 def test_create_character_same_name(test_client, init_database):
