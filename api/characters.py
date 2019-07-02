@@ -38,7 +38,7 @@ def update_character(character_id, character_data):
         db.session.merge(updated_character)
         db.session.commit()
         data = character_schema.dump(updated_character).data
-        return data, 201
+        return data, 200
     except IntegrityError as i:
         db.session.rollback()
         abort(400, f'Character: {character_id} could not be updated: {i.orig}')
@@ -54,7 +54,7 @@ def create_character(character_data):
         db.session.add(new_character)
         db.session.commit()
         data = schema.dump(new_character).data
-        return data, 201
+        return data, 200
     except IntegrityError as i:
         db.session.rollback()
         abort(400, f'Character could not be created: {i.orig}')

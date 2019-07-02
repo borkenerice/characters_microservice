@@ -7,9 +7,9 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 # Build the Sqlite ULR for SqlAlchemy
 if os.name == 'nt':
-    sqlite_url = "sqlite:///" + os.path.join(BASE_DIR, "persons.db")
+    sqlite_url = "sqlite:///" + os.path.join(BASE_DIR, "characters.db")
 else:
-    sqlite_url = "sqlite:////" + os.path.join(BASE_DIR, "persons.db")
+    sqlite_url = "sqlite:////" + os.path.join(BASE_DIR, "characters.db")
 
 SQLALCHEMY_ECHO = True
 SQLALCHEMY_DATABASE_URI = sqlite_url
