@@ -31,7 +31,7 @@ def init_database():
     db.drop_all()
 
 
-def test_get_all_characters_response_status(test_client, init_database):
+def test_get_all_characters(test_client, init_database):
     """
     Check correct response code for a get request to get all the characters available
     :param test_client: fixture
@@ -42,7 +42,7 @@ def test_get_all_characters_response_status(test_client, init_database):
     assert response.status_code == 200
 
 
-def test_get_all_characters_by_place_id_response_status(test_client, init_database):
+def test_get_all_characters_by_place_id(test_client, init_database):
     """
     Check correct response code for a get request to get all the characters available in an specified place_id
     :param test_client: fixture
@@ -53,7 +53,18 @@ def test_get_all_characters_by_place_id_response_status(test_client, init_databa
     assert response.status_code == 200
 
 
-def test_get_character_by_id_response_code(test_client, init_database):
+def test_get_all_characters_by_place_id_do_not_exist(test_client, init_database):
+    """
+    Check correct response code for a get request to check that no characters are available in an specified place_id
+    :param test_client: fixture
+    :param init_database: fixture
+    :return:
+    """
+    response = test_client.get('/api/character/findByPlace/70')
+    assert response.status_code == 404
+
+
+def test_get_character_by_id(test_client, init_database):
     """
     Check correct response code for a get request to a character identified by its id
     :param test_client: fixture
@@ -64,7 +75,7 @@ def test_get_character_by_id_response_code(test_client, init_database):
     assert response.status_code == 200
 
 
-def test_get_character_by_id_do_not_exists_response_code(test_client, init_database):
+def test_get_character_by_id_do_not_exists(test_client, init_database):
     """
     Check correct response code for a get request to a character identified by its id if it does not exists
     :param test_client: fixture
@@ -75,7 +86,7 @@ def test_get_character_by_id_do_not_exists_response_code(test_client, init_datab
     assert response.status_code == 404
 
 
-def test_create_character_response_code(test_client, init_database):
+def test_create_character(test_client, init_database):
     """
     Check correct response code for a post request to create a character
     :param test_client: fixture
@@ -92,7 +103,7 @@ def test_create_character_response_code(test_client, init_database):
     assert response.status_code == 201
 
 
-def test_create_character_same_name_error_response_code(test_client, init_database):
+def test_create_character_same_name(test_client, init_database):
     """
     Check correct response code for a post request to create a character if it has the same name as
     one that already exists
@@ -145,7 +156,7 @@ def test_create_character_not_valid_king(test_client, init_database):
     assert response.status_code == 400
 
 
-def test_update_character_response_code(test_client, init_database):
+def test_update_character(test_client, init_database):
     """
     Check correct response code for a put request to update a character
     :param test_client: fixture
@@ -162,7 +173,7 @@ def test_update_character_response_code(test_client, init_database):
     assert response.status_code == 201
 
 
-def test_update_character_same_name_error_response_code(test_client, init_database):
+def test_update_character_same_name(test_client, init_database):
     """
     Check correct response code for a put request to update a character
     if it has the same name as one that already exists
@@ -215,7 +226,7 @@ def test_update_character_alive_without_place_id(test_client, init_database):
     assert response.status_code == 400
 
 
-def test_delete_character_response_code(test_client, init_database):
+def test_delete_character(test_client, init_database):
     """
     Check correct response code for a delete request to delete a character
     :param test_client: fixture
@@ -226,7 +237,7 @@ def test_delete_character_response_code(test_client, init_database):
     assert response.status_code == 200
 
 
-def test_delete_character_does_not_exists_error_response_code(test_client, init_database):
+def test_delete_character_does_not_exists(test_client, init_database):
     """
     Check correct response code for a delete request to delete a place that do not exists
     :param test_client: fixture

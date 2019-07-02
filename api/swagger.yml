@@ -22,8 +22,6 @@ paths:
           schema:
             type: object
             $ref: '#/definitions/Character'
-        204:
-          description: No characters found
     post:
       operationId: api.characters.create_character
       tags: [Character]
@@ -50,9 +48,9 @@ paths:
           description: List of all Characters
           schema:
             type: object
-            $ref: '#/definitions/Character_no_place_id'
-        204:
-           description: No characters found
+            $ref: '#/definitions/Character'
+        404:
+          description: No characters found in the defined place
   /character/{character_id}:
     get:
       operationId: api.characters.find_character_by_id
@@ -67,7 +65,7 @@ paths:
             type: object
             $ref: '#/definitions/Character'
         404:
-          description: Character does not exist
+          description: Character not found
     put:
       tags: [Character]
       operationId: api.characters.update_character
@@ -129,26 +127,6 @@ definitions:
         description: Character's place id. Required if the character is alive.
         example: "3"
         pattern: "^[0-9]+$"
-      king:
-        type: boolean
-        description: If a character is the king of the place.
-        example: false
-      alive:
-        type: boolean
-        description: If a character ir alive(true) or dead(false). If not set, defaults to dead.
-        example: false
-  Character_no_place_id:
-    type: object
-    required:
-      - name
-      - king
-    properties:
-      name:
-        type: string
-        description: Character's unique name.
-        example: "Jon"
-        minLength: 1
-        maxLength: 100
       king:
         type: boolean
         description: If a character is the king of the place.

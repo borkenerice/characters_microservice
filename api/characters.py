@@ -21,9 +21,12 @@ def find_character_by_id(character_id):
 
 def find_characters_by_place_id(place_id):
     characters = Character.query.filter_by(place_id=place_id).order_by(Character.name).all()
-    character_schema = CharacterSchema(many=True, exclude=('place_id',))
-    data = character_schema.dump(characters).data
-    return data
+    if characters:
+        character_schema = CharacterSchema(many=True, exclude=('place_id',))
+        data = character_schema.dump(characters).data
+        return data
+    else:
+        abort(404, f'Character not found with the place id: {place_id}')
 
 
 def update_character(character_id, character_data):
