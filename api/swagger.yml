@@ -51,7 +51,6 @@ paths:
           schema:
             type: object
             $ref: '#/definitions/Character_no_place_id'
-            exclude:
         204:
            description: No characters found
   /character/{character_id}:
