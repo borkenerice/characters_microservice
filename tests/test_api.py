@@ -21,6 +21,7 @@ def init_database():
     fixture that initializes the db to be used in the tests
     :return: db
     """
+    db.drop_all()
     db.create_all()
     character = Character(name='Jon Test', place_id=1, king=True, alive=True)
     character2 = Character(name='Perrete Test', place_id=2, king=False, alive=False)

@@ -9,14 +9,14 @@ def find_all_characters():
     characters = Character.query.order_by(Character.name).all()
     character_schema = CharacterSchema(many=True)
     data = character_schema.dump(characters).data
-    return data, 200
+    return data
 
 
 def find_character_by_id(character_id):
     character = Character.query.get_or_404(character_id, description=f'Character not found with the id: {character_id}')
     character_schema = CharacterSchema()
     data = character_schema.dump(character).data
-    return data, 200
+    return data
 
 
 def find_characters_by_place_id(place_id):
@@ -24,7 +24,7 @@ def find_characters_by_place_id(place_id):
     if characters:
         character_schema = CharacterSchema(many=True, exclude=('place_id',))
         data = character_schema.dump(characters).data
-        return data, 200
+        return data
     else:
         abort(404, f'Character not found with the place id: {place_id}')
 
@@ -38,7 +38,7 @@ def update_character(character_id, character_data):
         db.session.merge(updated_character)
         db.session.commit()
         data = character_schema.dump(updated_character).data
-        return data, 200
+        return data
     except IntegrityError as i:
         db.session.rollback()
         abort(400, f'Character: {character_id} could not be updated: {i.orig}')
