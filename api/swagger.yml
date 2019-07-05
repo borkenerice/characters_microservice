@@ -1,0 +1,137 @@
+swagger: "2.0"
+info:
+  description: Simple API to perform CRUD operations to the Characters database
+  version: "1.0"
+  title: Characters API
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+paths:
+  /character:
+    get:
+      operationId: api.characters.find_all_characters
+      tags: [Character]
+      summary: Get all Characters
+      responses:
+        200:
+          description: List of all Characters
+          schema:
+            type: object
+            $ref: '#/definitions/Character'
+    post:
+      operationId: api.characters.create_character
+      tags: [Character]
+      summary: Create a new Character
+      parameters:
+        - name: character_data
+          in: body
+          schema:
+            $ref: '#/definitions/Character'
+      responses:
+        201:
+          description: New character created
+        400:
+          description: Error creating character
+  /character/findByPlace/{place_id}:
+    get:
+      operationId: api.characters.find_characters_by_place_id
+      tags: [Character]
+      summary: Find all characters by their place_id
+      parameters:
+        - $ref: '#/parameters/place_id'
+      responses:
+        200:
+          description: List of all Characters
+          schema:
+            type: object
+            $ref: '#/definitions/Character'
+        404:
+          description: No characters found in the defined place
+  /character/{character_id}:
+    get:
+      operationId: api.characters.find_character_by_id
+      tags: [Character]
+      summary: Find a character identified by its id
+      parameters:
+        - $ref: '#/parameters/character_id'
+      responses:
+        200:
+          description: Definition of a Character
+          schema:
+            type: object
+            $ref: '#/definitions/Character'
+        404:
+          description: Character not found
+    put:
+      tags: [Character]
+      operationId: api.characters.update_character
+      summary: Update a character identified by its id
+      parameters:
+        - $ref: '#/parameters/character_id'
+        - name: character_data
+          in: body
+          schema:
+            $ref: '#/definitions/Character'
+      responses:
+        201:
+          description: Character updated
+        400:
+          description: Error updating character
+    delete:
+      tags: [Character]
+      operationId: api.characters.delete_character_by_id
+      summary: Remove a character identified by its id
+      parameters:
+        - $ref: '#/parameters/character_id'
+      responses:
+        200:
+          description: Character was deleted
+        404:
+          description: Character does not exists
+
+parameters:
+  character_id:
+    name: character_id
+    description: Character's Unique identifier
+    in: path
+    type: string
+    required: true
+    pattern: "^[0-9]+$"
+  place_id:
+    name: place_id
+    description: Character's place id
+    in: path
+    type: string
+    required: true
+    pattern: "^[0-9]+$"
+
+definitions:
+  Character:
+    type: object
+    required:
+      - name
+      - king
+    properties:
+      name:
+        type: string
+        description: Character's unique name.
+        example: "Jon"
+        minLength: 1
+        maxLength: 100
+      place_id:
+        type: string
+        description: Character's place id. Required if the character is alive.
+        example: "3"
+        pattern: "^[0-9]+$"
+      king:
+        type: boolean
+        description: If a character is the king of the place.
+        example: false
+      alive:
+        type: boolean
+        description: If a character ir alive(true) or dead(false). If not set, defaults to dead.
+        example: false
