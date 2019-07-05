@@ -1,7 +1,14 @@
 import os
+import sys
+
+if os.path.abspath(os.curdir) not in sys.path:
+    print('...missing directory in PYTHONPATH... added!')
+    sys.path.append(os.path.abspath(os.curdir))
+
 import config
 from api import db, create_app
 from api.models import Character
+
 
 # Data to initialize database with
 CHARACTERS = [
@@ -27,12 +34,10 @@ CHARACTERS = [
 
 
 def create_database():
-    # Delete database file if it exists currently
-    if os.path.exists(os.path.join(config.BASE_DIR, 'characters.db')):
-        os.remove(os.path.join(config.BASE_DIR, 'characters.db'))
     # Create the database
     app = create_app()
     with app.app_context():
+        db.drop_all()
         db.create_all()
         # iterate over the PEOPLE structure and populate the database
         for character in CHARACTERS:
