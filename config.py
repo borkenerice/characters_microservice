@@ -5,14 +5,14 @@ TESTING = True
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
-# Build the Sqlite ULR for SqlAlchemy
-if os.name == 'nt':
-    sqlite_url = "sqlite:///" + os.path.join(BASE_DIR, "characters.db")
-else:
-    sqlite_url = "sqlite:////" + os.path.join(BASE_DIR, "characters.db")
+POSTGRES_DEFAULT_USER = 'postgresql'
+POSTGRES_USER = 'characters_micro'
+POSTGRES_PASSWORD = 'characters_micro'
+POSTGRES_DB = 'characters_micro-db'
+SQLALCHEMY_DATABASE_URI = 'postgresql://' + POSTGRES_USER + ':' + POSTGRES_PASSWORD + '@postgresql:5432/' + POSTGRES_DB
+
 
 SQLALCHEMY_ECHO = True
-SQLALCHEMY_DATABASE_URI = sqlite_url
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 SWAGGER_DIR = os.path.join(BASE_DIR, 'api', 'swagger.yml')
