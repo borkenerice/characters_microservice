@@ -3,6 +3,7 @@ from sqlalchemy.orm import validates
 
 
 class Character(db.Model):
+
     __tablename__ = "character"
     character_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)

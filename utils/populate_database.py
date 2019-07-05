@@ -9,7 +9,6 @@ import config
 from api import db, create_app
 from api.models import Character
 
-
 # Data to initialize database with
 CHARACTERS = [
     {
