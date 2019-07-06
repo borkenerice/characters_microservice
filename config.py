@@ -9,6 +9,7 @@ POSTGRES_USER = 'characters_micro'
 POSTGRES_PASSWORD = 'characters_micro'
 POSTGRES_DB = 'characters_micro_db'
 POSTGRES_SERVICE = 'postgres_characters'
+
 POSTGRES_PORT='5432'
 SQLALCHEMY_DATABASE_URI = f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_SERVICE}:{POSTGRES_PORT}/{POSTGRES_DB}'
 
