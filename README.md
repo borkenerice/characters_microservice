@@ -15,7 +15,7 @@ Having [Docker](https://docs.docker.com/install/) and [Docker Compose](https://d
    
    `docker-compose exec characters_api flask db upgrade`
    
-After these steps you should be able to access a swagger ui through the url http://0.0.0.0:8082/api/ui
+After these steps you should be able to access a swagger ui through the url http://0.0.0.0:8081/api/ui
 
 ## Optional
 
