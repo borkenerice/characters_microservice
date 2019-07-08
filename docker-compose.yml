@@ -4,7 +4,14 @@ services:
     restart: always
     build: .
     ports:
-      - "8082:8082"
+      - "8081:8081"
     volumes:
       - /home/flask/app/characters_microservice
-    command: flask run --host=0.0.0.0 --port 8082
+    command: flask run --host=0.0.0.0 --port 8081
+  postgres_characters:
+    restart: always
+    build: ./postgresql
+    volumes:
+      - /var/lib/postgresql_characters
+    expose:
+      - "5432"
